@@ -13,4 +13,4 @@
 # "lambda_l1": 0.1,
 "verbosity": -1,
 "nthread": -1,
-"random_state": 16
+"random_state": 11
