@@ -27,9 +27,10 @@ df_test = pd.read_csv('./input/test.csv')
 
 # target
 target_col = 'TARGET'
+id_col = 'SK_ID_CURR'
 
 # features
-cols_rm = [target_col]
+cols_rm = [target_col, id_col]
 features = [col for col in df_train.columns if col not in cols_rm]
 features_cat = [col for col in features if df_train[col].dtype=='object']
 
@@ -83,6 +84,6 @@ print(feature_importance_mean.head(20))
 feature_importance_mean.to_csv("../importance/lgbm_{}.csv".format(val_score), index=False)
 
 # output prediction
-df_submit = pd.DataFrame({"id": X_test["id"].values})
-df_submit["target"] = pred
-df_submit.to_csv("../output/submit_val_{}.csv".format(val_score), index=False)
+df_submit = pd.DataFrame({id_col: X_test[id_col].values})
+df_submit[target_col] = pred
+df_submit.to_csv("./output/{}_val_{}.csv".format(args.name, val_score), index=False)
