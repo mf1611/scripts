@@ -79,7 +79,7 @@ val_score = np.sqrt(mean_squared_error(y_train, oof))
 print('CV_RMSE: ', val_score)
 
 # output importance
-feature_importance_mean = feature_importance_df[['feature','importance']].groupby('feature').mean().sort_values(by="importance", ascending=False)
+feature_importance_mean = feature_importance_df[['feature','importance']].groupby('feature').mean().sort_values(by="importance", ascending=False).reset_index()
 print(feature_importance_mean.head(20))
 feature_importance_mean.to_csv("../importance/lgbm_{}.csv".format(val_score), index=False)
 
