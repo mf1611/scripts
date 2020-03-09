@@ -79,7 +79,7 @@ val_score = roc_auc_score(y_train, oof)
 print('CV_AUC: ', val_score)
 
 # output importance
-feature_importance_mean = feature_importance_df[['feature','importance']].groupby('feature').mean().sort_values(by="importance", ascending=False)
+feature_importance_mean = feature_importance_df[['feature','importance']].groupby('feature').mean().sort_values(by="importance", ascending=False).reset_index()
 print(feature_importance_mean.head(20))
 feature_importance_mean.to_csv("./importance/{}_{}.csv".format(args.name, val_score), index=False)
 
