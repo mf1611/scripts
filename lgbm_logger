@@ -22,32 +22,6 @@ parser.add_argument('-name', help='name of output file')
 args = parser.parse_args()
 
 
-
-# mlflow
-import mlflow  
-from mlflow.utils.mlflow_tags import MLFLOW_RUN_NAME 
-
-experiment_name = 'test1'
-mlflow.set_experiment(experiment_name)  
-
-run_id = `None or 先に行ったrun_idを指定`  # 要修正  
-
-if not run_id:  
-    mlflow.start_run(run_id=None)  
-    run_id = mlflow.active_run().info.run_id  # run_idはこれで取得できる  
-elif run_id:  # 後から、同じrun_idに追記する時  
-    mlflow.start_run(run_id=run_id)  
-
-# Run Nameの指定と、パラメータ・特徴の記録  
-mlflow.set_tag(MLFLOW_RUN_NAME, TASK_NAME)  # Run Nameを指定  
-mlflow.log_param('model_params', PARAMS_LGB)  # LigtGBMのパラメータを記録  
-mlflow.log_param('Feature', FEATURE)  # 使った特徴を記録  
-
-
-
-
-
-
 # output log in case of lightgbm
 import logging
 from lightgbm.callback import _format_eval_result
@@ -74,8 +48,6 @@ callbacks = [log_evaluation(logger, period=10)]
 # read df_train, df_test
 df_train = pd.read_csv('./input/train.csv')
 df_test = pd.read_csv('./input/test.csv')
-
-df_train = df_train.sample(frac=0.5)
 
 # target
 target_col = 'TARGET'
