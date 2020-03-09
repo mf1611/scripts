@@ -10,6 +10,9 @@ from sklearn.metrics import mean_squared_error, roc_auc_score
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+# usage
+# $ python ./src/main.py -params ./conf/lightgbm.yaml -name test
+
 # ArgumentParser
 parser = argparse.ArgumentParser()
 parser.add_argument('-params', help='yaml file of lgbm parameters')
@@ -19,17 +22,26 @@ args = parser.parse_args()
 
 
 # read df_train, df_test
-df_train = pd.read_csv('../input/train.csv')
-df_test = pd.read_csv('../input/test.csv')
+df_train = pd.read_csv('./input/train.csv')
+df_test = pd.read_csv('./input/test.csv')
 
+# target
+target_col = 'TARGET'
 
 # features
-cols_rm = ['target']
+cols_rm = [target_col]
 features = [col for col in df_train.columns if col not in cols_rm]
+features_cat = [col for col in features if df_train[col].dtype=='object']
 
-X_train = df_train[features]
-X_test = df_test[features]
-y_train = df_train['target']
+X_train = df_train.loc[:, features]
+X_test = df_test.loc[:, features]
+y_train = df_train.loc[:, target_col]
+
+
+# transform object type to category type
+X_train[features_cat] = X_train[features_cat].astype('category')
+X_test[features_cat] = X_test[features_cat].astype('category')
+
 
 
 # fold predictions
@@ -41,7 +53,7 @@ feature_importance_df = pd.DataFrame()
 
 # read params
 with open(args.params, 'r') as f:
-    params = yaml.load(f)
+    params = yaml.safe_load(f)
 
 
 for fold_, (tr_idx, val_idx) in enumerate(folds.split(X_train.values, y_train.values)):
@@ -68,9 +80,9 @@ print('CV_AUC: ', val_score)
 # output importance
 feature_importance_mean = feature_importance_df[['feature','importance']].groupby('feature').mean().sort_values(by="importance", ascending=False)
 print(feature_importance_mean.head(20))
-feature_importance_mean.to_csv("../importance/{}_{}.csv".format(args.name, val_score), index=False)
+feature_importance_mean.to_csv("./importance/{}_{}.csv".format(args.name, val_score), index=False)
 
 # output prediction
 df_submit = pd.DataFrame({"id": X_test["id"].values})
 df_submit["target"] = pred
-df_submit.to_csv("../output/{}_val_{}.csv".format(args.name, val_score), index=False)
+df_submit.to_csv("./output/{}_val_{}.csv".format(args.name, val_score), index=False)
