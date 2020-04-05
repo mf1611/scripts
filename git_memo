@@ -1,0 +1,18 @@
+0. [local] emailとnameの登録
+$ git config --global user.email "you@example.com"
+$ git config --global user.name "Your Name"
+
+1. [remote] github上でリポジトリ作成
+
+2. [local] remoteに反映
+$ git init
+$ touch .gitignore
+$ vi .gitignore  # input/, /output/, /features/とかを記載
+
+$ git add --all
+$ git commit -m "first commit"
+
+$ git remote add origin https://github.com/～.git
+
+$ git push -u origin master
+
