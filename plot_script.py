@@ -176,10 +176,10 @@ def plot_histgram(counter_values, bin_width, min_value, max_value, val_log10=Fal
     df_ = df_.sort_values(by='value', ascending=True)
 
     if not normalize:
-        sns.barplot(x=df_['value'], y=df_['count'])
+        sns.barplot(x=df_['value'], y=df_['count'], palette="Blues_d")
         plt.show()
     else:
-        sns.barplot(x=df_['value'], y=df_['count_norm'])
+        sns.barplot(x=df_['value'], y=df_['count_norm'], palette="Blues_d")
         plt.show()
     
     return df_
