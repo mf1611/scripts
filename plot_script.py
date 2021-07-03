@@ -6,21 +6,21 @@ import japanize_matplotlib
 from sklearn.metrics import roc_auc_score, auc, precision_score, recall_score, roc_curve, precision_recall_curve
 
 
-# ƒOƒ‰ƒt•\Ž¦—p‚ÌŠÖ”
+# ã‚°ãƒ©ãƒ•è¡¨ç¤ºç”¨ã®é–¢æ•°
 def count_categorical_values(df_, col, fontsize=15):
-    """ƒJƒeƒSƒŠƒJƒ‹•Ï”‚Ì•p“x•ª•z‚ð•\Ž¦"""
+    """ã‚«ãƒ†ã‚´ãƒªã‚«ãƒ«å¤‰æ•°ã®é »åº¦åˆ†å¸ƒã‚’è¡¨ç¤º"""
     val_cnt = df_[col].value_counts(dropna=False)
     plt.figure(figsize=(10, 5))
     sns.barplot(val_cnt.index, val_cnt.values)
     plt.xticks(rotation=45, fontsize=fontsize)
     plt.yticks(fontsize=fontsize)
-    plt.ylabel('Œ”', fontsize=fontsize)
+    plt.ylabel('ä»¶æ•°', fontsize=fontsize)
     plt.show()
     return
 
 
 def count_cntinuousl_values(df_, col, log10=False, fontsize=15):
-    """˜A‘±’l•Ï”‚Ì•p“x•ª•z‚ð•\Ž¦"""
+    """é€£ç¶šå€¤å¤‰æ•°ã®é »åº¦åˆ†å¸ƒã‚’è¡¨ç¤º"""
     plt.figure(figsize=(10, 5))
     if log10:
         sns.distplot(df_[col].apply(lambda x: np.log10(x)), kde=False)
@@ -30,7 +30,7 @@ def count_cntinuousl_values(df_, col, log10=False, fontsize=15):
     plt.xticks(fontsize=fontsize)
     plt.yticks(fontsize=fontsize)
     plt.xlabel(col, fontsize=fontsize)
-    plt.ylabel('Œ”', fontsize=fontsize)
+    plt.ylabel('ä»¶æ•°', fontsize=fontsize)
     plt.show()
     return
     
@@ -52,7 +52,7 @@ def count_date_plot(df_, col_date):
 
 
 def pos_neg_distplot(df_, target_col, cols_contib):
-	"""³—á•‰—á–ˆ‚ÌŠeƒJƒ‰ƒ€‚Ì•ª•z”äŠr"""
+	"""æ­£ä¾‹è² ä¾‹æ¯Žã®å„ã‚«ãƒ©ãƒ ã®åˆ†å¸ƒæ¯”è¼ƒ"""
 	df_pos = df_[df_[target_col]==1].copy()
 	df_neg = df_[df_[target_col]==0].copy()
 	for col in cols_contib:
@@ -69,7 +69,7 @@ def pos_neg_distplot(df_, target_col, cols_contib):
 	return
 
 
-# ³—á‚Æ•‰—á‚ÌƒXƒRƒA•ª•z
+# æ­£ä¾‹ã¨è² ä¾‹ã®ã‚¹ã‚³ã‚¢åˆ†å¸ƒ
 def display_score_dist(y, p, fontsize=15):
     score = pd.DataFrame()
     score['pred'] = p
@@ -77,14 +77,14 @@ def display_score_dist(y, p, fontsize=15):
 
     score_pos = score.loc[score['label']==1, 'pred']
     score_neg = score.loc[score['label']==0, 'pred']
-    range_bin_width = np.linspace(0, 1, 50)  # 2%‚Ý‚Ìƒrƒ“•
+    range_bin_width = np.linspace(0, 1, 50)  # 2%åˆ»ã¿ã®ãƒ“ãƒ³å¹…
     weights_pos = np.ones(score_pos.shape[0])/float(len(score_pos))
     weights_neg = np.ones(score_neg.shape[0])/float(len(score_neg))
     plt.figure(figsize=(10, 5))
     sns.distplot(score_pos, kde=False, bins=range_bin_width, hist_kws={'weights': weights_pos}, label='positive', color='r')
     sns.distplot(score_neg, kde=False, bins=range_bin_width, hist_kws={'weights': weights_neg}, label='negative', color='b')
-    plt.xlabel("ƒXƒRƒA", fontsize=fontsize)
-    plt.ylabel("•p“xŠ„‡", fontsize=fontsize)
+    plt.xlabel("ã‚¹ã‚³ã‚¢", fontsize=fontsize)
+    plt.ylabel("é »åº¦å‰²åˆ", fontsize=fontsize)
     plt.xticks(fontsize=fontsize)
     plt.yticks(fontsize=fontsize)
     plt.legend(fontsize=fontsize, loc='upper center')
@@ -99,8 +99,8 @@ def plot_auc(y, p, fontsize=15):
     print('ROC-AUC:', roc_auc_score(y, p))
 #     plt.figure(figsize=(10, 5))
     plt.plot(fpr, tpr)
-    plt.xlabel("FPRi‹U—z«—¦j", fontsize=fontsize)
-    plt.ylabel("TPRi^—z«—¦(ÄŒ»—¦)j", fontsize=fontsize)
+    plt.xlabel("FPRï¼ˆå½é™½æ€§çŽ‡ï¼‰", fontsize=fontsize)
+    plt.ylabel("TPRï¼ˆçœŸé™½æ€§çŽ‡(å†ç¾çŽ‡)ï¼‰", fontsize=fontsize)
     plt.xticks(fontsize=fontsize)
     plt.yticks(fontsize=fontsize)
     plt.show()
@@ -123,13 +123,63 @@ def plot_pr(y, p, fontsize=15):
 
 
 def display_confusion_matrix(y, p, thresh=0.95):
-	"""Žw’èè‡’l‚ÅØ‚Á‚½ê‡‚Ì¬“¯s—ñ•\Ž¦"""
+	"""æŒ‡å®šé–¾å€¤ã§åˆ‡ã£ãŸå ´åˆã®æ··åŒè¡Œåˆ—è¡¨ç¤º"""
     precision, recall, thresholds = precision_recall_curve(y, p)
     idx_recall = np.where(recall>=thresh)[0].max()
     thresh_recall = thresholds[idx_recall]
-    y_pred_thresh = np.where(p>=thresh_recall, 1, 0)  # Žw’èè‡’l‚Ì‰º‚Å’è‚ß‚½A0/1‚Ì—\‘ªŒ‹‰Ê
+    y_pred_thresh = np.where(p>=thresh_recall, 1, 0)  # æŒ‡å®šé–¾å€¤ã®ä¸‹ã§å®šã‚ãŸã€0/1ã®äºˆæ¸¬çµæžœ
     tn, fp, fn, tp = confusion_matrix(y, y_pred_thresh).ravel()
-    print('FPíŒ¸—¦F', round(tn/(tn+fp), 3))
-    print('¬“¯s—ñF')
+    print('FPå‰Šæ¸›çŽ‡ï¼š', round(tn/(tn+fp), 3))
+    print('æ··åŒè¡Œåˆ—ï¼š')
     print(np.array([[tp, fn], [fp, tn]]))
     return
+
+
+
+
+def plot_histgram(counter_values, bin_width, min_value, max_value, val_log10=False, normalize=False):
+    """
+    æŒ‡å®šã—ãŸãƒ“ãƒ³å¹…ã§ã®ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‚’ä½œæˆ
+    
+    counter_values: ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã®å…ƒã¨ã™ã‚‹valueéƒ¨
+    - ä¾‹ãˆã°ã€pd.DataFrameã®å ´åˆã€å¯¾å¿œã™ã‚‹åˆ—ã‚’ã€ä¸Šè¨˜ã«ãã‚Œãžã‚Œä»£å…¥ã™ã‚Œã°ã„ã„
+    
+    bin_width: ãƒ“ãƒ³ã®å¹…
+    min_value: æœ€å°å€¤
+    max_value: æœ€å¤§å€¤
+    val_log10: å¸¸ç”¨å¯¾æ•°å–ã‚‹ã‹ã©ã†ã‹(bool)
+    normalize: ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã®ç¸¦è»¸ã‚’æ­£è¦åŒ–ã™ã‚‹ã‹ã©ã†ã‹(bool)
+    """
+    # ãƒ“ãƒ³ã®æ•°, max_valueä»¥ä¸Šã®ãƒ“ãƒ³ã‚‚åŠ ãˆã‚‹ãŸã‚ã€+1
+    num_bins = int((max_value - min_value) / bin_width) + 1
+
+    # histgramã®counter_dictã®åˆæœŸåŒ–
+    hist_count = {}
+    for i in range(num_bins):
+        hist_count[min_value+bin_width*i] = 0
+
+    # å„ãƒ“ãƒ³ã«å…¥ã‚‹å ´åˆã«+1ã—ã¦ã„ã
+    for val in counter_values:
+        if val_log10:
+            val = np.log10(val)
+
+        for i in range(num_bins):
+            if val>=max_value:
+                hist_count[max_value] += 1
+            elif (val>=min_value+bin_width*i) & (val<min_value+bin_width*(i+1)): 
+                hist_count[min_value+bin_width*i] += 1
+
+    df_ = pd.DataFrame(columns=['value', 'count'])
+    df_['value'] = hist_count.keys()
+    df_['count'] = hist_count.values()
+    df_['count_norm'] = df_['count'] / df_['count'].sum()
+    df_ = df_.sort_values(by='value', ascending=True)
+
+    if not normalize:
+        sns.barplot(x=df_['value'], y=df_['count'])
+        plt.show()
+    else:
+        sns.barplot(x=df_['value'], y=df_['count_norm'])
+        plt.show()
+    
+    return df_
