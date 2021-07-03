@@ -140,6 +140,7 @@ def display_confusion_matrix(y, p, thresh=0.95):
 def plot_histgram(counter_values, bin_width, min_value, max_value, val_log10=False, normalize=False):
     """
     指定したビン幅でのヒストグラムを作成
+    - 最初は細かなパラメータの当たりをつけるのは難しいので、まずは、sns.distplot(counter_values)で見てみてから、この関数を用いるのが良い
     
     counter_values: ヒストグラムの元とするvalue部
     - 例えば、pd.DataFrameの場合、対応する列を、上記にそれぞれ代入すればいい
