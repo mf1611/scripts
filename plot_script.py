@@ -31,6 +31,7 @@ def count_cntinuousl_values(df_, col, log10=False, fontsize=15):
     plt.yticks(fontsize=fontsize)
     plt.xlabel(col, fontsize=fontsize)
     plt.ylabel('件数', fontsize=fontsize)
+    plt.grid(color = "gray", linestyle="--")
     plt.show()
     return
     
@@ -65,6 +66,7 @@ def pos_neg_distplot(df_, target_col, cols_contib):
 	    sns.distplot(df_pos[col], kde=False, hist_kws={'weights': weight_pos}, bins=range_bin_width, label='positive', color='r')
 	    sns.distplot(df_neg[col], kde=False, hist_kws={'weights': weight_neg}, bins=range_bin_width, label='negative', color='b')
 	    plt.legend()
+	    plt.grid(color = "gray", linestyle="--")
 	    plt.show()
 	return
 
@@ -88,6 +90,7 @@ def display_score_dist(y, p, fontsize=15):
     plt.xticks(fontsize=fontsize)
     plt.yticks(fontsize=fontsize)
     plt.legend(fontsize=fontsize, loc='upper center')
+    plt.grid(color = "gray", linestyle="--")
     plt.show()
     return
 
@@ -103,6 +106,7 @@ def plot_auc(y, p, fontsize=15):
     plt.ylabel("TPR（真陽性率(再現率)）", fontsize=fontsize)
     plt.xticks(fontsize=fontsize)
     plt.yticks(fontsize=fontsize)
+    plt.grid(color = "gray", linestyle="--")
     plt.show()
     return
     
@@ -117,6 +121,7 @@ def plot_pr(y, p, fontsize=15):
     plt.ylabel("precision", fontsize=fontsize)
     plt.xticks(fontsize=fontsize)
     plt.yticks(fontsize=fontsize)
+    plt.grid(color = "gray", linestyle="--")
     plt.show()
     return
     
