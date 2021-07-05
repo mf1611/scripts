@@ -38,37 +38,37 @@ def count_cntinuousl_values(df_, col, log10=False, fontsize=15):
 
 
 def count_date_plot(df_, col_date):
-	cnt_date = df[[col_date]].reset_index().groupby(col_date).count().sort_index(by='index', ascending=False)
-	cnt_date.columns = ['count']
-
-	#plt.figure(figsize=(30, 10))
-	cnt_date.plot(figsize=(30, 10))
-	plt.legend(fontsize=20)
-	plt.xticks(fontsize=20, rotation=45)
-	plt.yticks(fontsize=20)
-	plt.xlabel("date", fontsize=20)
-	plt.ylabel("count", fontsize=20)
-	plt.show()
+    cnt_date = df[[col_date]].reset_index().groupby(col_date).count().sort_index(by='index', ascending=False)
+    cnt_date.columns = ['count']
+	
+    #plt.figure(figsize=(30, 10))
+    cnt_date.plot(figsize=(30, 10))
+    plt.legend(fontsize=20)
+    plt.xticks(fontsize=20, rotation=45)
+    plt.yticks(fontsize=20)
+    plt.xlabel("date", fontsize=20)
+    plt.ylabel("count", fontsize=20)
+    plt.show()
 
 
 
 def pos_neg_distplot(df_, target_col, cols_contib):
-	"""正例負例毎の各カラムの分布比較"""
-	df_pos = df_[df_[target_col]==1].copy()
-	df_neg = df_[df_[target_col]==0].copy()
-	for col in cols_contib:
-	    print(col)
-	    weight_pos = np.ones(df_pos[col].dropna().shape[0])/float(df_pos[col].dropna().shape[0])
-	    weight_neg = np.ones(df_neg[col].dropna().shape[0])/float(df_neg[col].dropna().shape[0])
-	    x_max = df[col].max()
-	    x_min = df[col].min()
-	    range_bin_width = np.linspace(x_min, x_max, 20)
-	    sns.distplot(df_pos[col], kde=False, hist_kws={'weights': weight_pos}, bins=range_bin_width, label='positive', color='r')
-	    sns.distplot(df_neg[col], kde=False, hist_kws={'weights': weight_neg}, bins=range_bin_width, label='negative', color='b')
-	    plt.legend()
-	    plt.grid(color = "gray", linestyle="--")
-	    plt.show()
-	return
+    """正例負例毎の各カラムの分布比較"""
+    df_pos = df_[df_[target_col]==1].copy()
+    df_neg = df_[df_[target_col]==0].copy()
+    for col in cols_contib:
+        print(col)
+    	weight_pos = np.ones(df_pos[col].dropna().shape[0])/float(df_pos[col].dropna().shape[0])
+	weight_neg = np.ones(df_neg[col].dropna().shape[0])/float(df_neg[col].dropna().shape[0])
+	x_max = df[col].max()
+	x_min = df[col].min()
+	range_bin_width = np.linspace(x_min, x_max, 20)
+	sns.distplot(df_pos[col], kde=False, hist_kws={'weights': weight_pos}, bins=range_bin_width, label='positive', color='r')
+	sns.distplot(df_neg[col], kde=False, hist_kws={'weights': weight_neg}, bins=range_bin_width, label='negative', color='b')
+	plt.legend()
+	plt.grid(color = "gray", linestyle="--")
+	plt.show()
+    return
 
 
 # 正例と負例のスコア分布
